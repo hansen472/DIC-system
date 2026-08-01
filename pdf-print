@@ -1,0 +1,38 @@
+server {
+    listen 80;
+    server_name 172.19.40.91;  # 或你的服务器 IP
+
+    # 保护整个站点（包括 index.html 和所有 /api/*）
+    # auth_basic "打印系统登录";
+    # auth_basic_user_file /etc/nginx/.htpasswd;
+
+    client_max_body_size 20m;
+
+       # nginx 提供图片,当service.js 中提供了基础URL，在用模版时，提供的链接是/images/此路由 nginx 响应，以减少node的性能损耗。 
+    location /images/ {
+
+        alias /var/www/pdf-print/images/;
+
+}
+
+        # 所有请求都转发给 Node.js
+    location / {
+        proxy_pass http://127.0.0.1:3456;
+        proxy_http_version 1.1;
+
+        # 关键：把原始请求信息透传给 Node
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+    }
+
+
+
+    location /lz {
+        alias /var/www/lingzhi; # 指向新网页所在的文件夹
+        index index.html;
+       # auth_basic off;         # 关闭此路径下的验证
+    }
+}

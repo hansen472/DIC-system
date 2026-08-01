@@ -1,0 +1,2 @@
+
+供应商表 （suppliers ）与产品表（ product_list） 与最终的供应商资质录入表，产生联动，不管是在供应商表中inactive 了供应商，还是在产品表中inactive 了产品，都会自动的在 录入表中inactive 掉相应的数据行。 
