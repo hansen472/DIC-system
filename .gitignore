@@ -18,3 +18,5 @@ paddleocr-models.tar.gz
 *.tar.gz
 *.bak
 backup/
+db-config.js
+db-mic-config.js
